@@ -1,5 +1,5 @@
 input: clean
-	gmsh -2 -bin Mesh/spherical_shell.geo
+	gmsh -2 -bin mesh/spherical_shell.geo
 	tar -xvjf gplates_data/GPlates_Velocities.tar.bz2
 
 clean:
