@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<testproblem>
+  <name>test-gplates</name>
+  <owner userid="rhodrid"/>
+  <tags>flml</tags>
+
+  <problem_definition length="medium" nprocs="1">
+    <command_line>fluidity -v2 -l test-gplates-boundary-conditions-cartesian.flml</command_line>
+  </problem_definition>
+
+<variables>  
+
+<variable name="Max_PID_2Ma" language="python">
+from fluidity_tools import stat_parser as stat
+Max_PID_2Ma = stat("gplates_test.stat")["Mantle"]["Plate_ID"]["max"][0]
+</variable>
+
+<variable name="Min_PID_2Ma" language="python">
+from fluidity_tools import stat_parser as stat
+Min_PID_2Ma = stat("gplates_test.stat")["Mantle"]["Plate_ID"]["min"][0]
+</variable>
+
+<variable name="Max_PID_0Ma" language="python">
+from fluidity_tools import stat_parser as stat
+Max_PID_0Ma = stat("gplates_test.stat")["Mantle"]["Plate_ID"]["max"][-1]
+</variable>
+
+<variable name="Min_PID_0Ma" language="python">
+from fluidity_tools import stat_parser as stat
+Min_PID_0Ma = stat("gplates_test.stat")["Mantle"]["Plate_ID"]["min"][-1]
+</variable>
+
+<variable name="RMS_Surface_Velocity_2Ma" language="python">
+from fluidity_tools import stat_parser as stat
+ms2cmyr = 100*365*24*60*60
+RMS_Surface_Velocity_2Ma = stat("gplates_test.stat")["Mantle"]["Surface_Velocity%magnitude"]["l2norm"][0]*ms2cmyr
+</variable>
+
+<variable name="RMS_Surface_Velocity_0Ma" language="python">
+from fluidity_tools import stat_parser as stat
+ms2cmyr = 100*365*24*60*60
+RMS_Surface_Velocity_0Ma = stat("gplates_test.stat")["Mantle"]["Surface_Velocity%magnitude"]["l2norm"][-1]*ms2cmyr
+</variable>
+
+</variables>
+
+<pass_tests>
+
+<test name="Max Plate ID at 2 Ma is what we expect (911)" language="python">
+  assert(Max_PID_2Ma == 911)
+</test>
+
+<test name="Min Plate ID at 2 Ma is what we expect (101)" language="python">
+  assert(Min_PID_2Ma == 101)
+</test>
+
+<test name="Max Plate ID at 0 Ma is what we expect (911)" language="python">
+  assert(Max_PID_0Ma == 911)
+</test>
+
+<test name="Min Plate ID at 0 Ma is what we expect (0)" language="python">
+  assert(Min_PID_0Ma == 0)
+</test>
+
+<test name="Correct RMS surface velocity at 2Ma (4.29777146 cm/yr)" language="python">
+  assert(abs(RMS_Surface_Velocity_2Ma - 4.29777146) &lt; 1.0e-6)
+</test>
+
+<test name="Correct RMS surface velocity at 0Ma (4.28925907 cm/yr)" language="python">
+  assert(abs(RMS_Surface_Velocity_0Ma - 4.28925907) &lt; 1.0e-6)
+</test>
+
+<test name="RMS surface velocity at 2Ma > RMS surface velocity at 0Ma" language="python">
+  assert(RMS_Surface_Velocity_2Ma &gt; RMS_Surface_Velocity_0Ma)
+</test>
+
+</pass_tests>                                                                                                             
+
+<warn_tests>
+</warn_tests>
+
+</testproblem>
+
+
+
+
+
