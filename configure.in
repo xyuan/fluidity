@@ -1573,6 +1573,10 @@ fi
 
 #*******************
 
+
+AC_PROG_SED
+AC_PROG_GREP
+
 AC_OUTPUT(Makefile
           debug/Makefile
           bathymetry/Makefile
@@ -1607,4 +1611,5 @@ AC_OUTPUT(Makefile
           libwm/Makefile
           libvtkfortran/Makefile
           schemas/flml
-	  reduced_modelling/Makefile)
+	  reduced_modelling/Makefile
+	  tests/tools.mk)
