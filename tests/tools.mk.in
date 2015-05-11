@@ -1,0 +1,4 @@
+FC = @FC@
+FCFLAGS = @FCFLAGS@ 
+CC = @CC@
+CFLAGS = @CFLAGS@
